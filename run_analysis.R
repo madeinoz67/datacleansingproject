@@ -35,23 +35,42 @@ unzip(data_f, overwrite = TRUE, exdir = "data" )
 list.files(data_path, recursive = TRUE)
 
 # Read in the required files
-dtSubjectTrain  <- fread(file.path(data_path, "train", "subject_train.txt"))
-dtSubjectTest   <- fread(file.path(data_path, "test", "subject_test.txt"))
+dtSubjectTrain  <- read.table(file.path(data_path, "train", "subject_train.txt"), header = FALSE)
+dtSubjectTest   <- read.table(file.path(data_path, "test", "subject_test.txt"), header = FALSE)
 
-dtActivityTrain <- fread(file.path(data_path, "train", "Y_train.txt"))
-dtActivityTest  <- fread(file.path(data_path, "test", "Y_test.txt"))
+dtActivityTrain <- fread(file.path(data_path, "train", "Y_train.txt"), header = FALSE)
+dtActivityTest  <- read.table(file.path(data_path, "test", "Y_test.txt"), header = FALSE)
 
-dtFeaturesTrain <- fread(file.path(data_path, "train", "X_train.txt")) 
-dtFeaturesTest  <- fread(file.path(data_path, "test", "X_test.txt"))
+dtFeaturesTrain <- read.table(file.path(data_path, "train", "X_train.txt"), header = FALSE) 
+dtFeaturesTest  <- read.table(file.path(data_path, "test", "X_test.txt"), header = FALSE)
+
+activityLabels <- read.table(file.path(data_path, "activity_labels.txt"),header = FALSE)
+
 
 # 1. Merges the training and the test sets to create one data set.
+
 dtSubject <- rbind(dtSubjectTrain, dtSubjectTest)
-dtActivity<- rbind(dataActivityTrain, dtActivityTest)
-dataFeatures<- rbind(dtFeaturesTrain, dtFeaturesTest)
+dtActivity<- rbind(dtActivityTrain, dtActivityTest)
+dtFeatures<- rbind(dtFeaturesTrain, dtFeaturesTest)
+
+names(dtSubject)<-c("subject")
+names(dtActivity)<- c("activity")
+dtFeaturesNames <- read.table(file.path(data_path, "features.txt"), header=FALSE)
+names(dtFeatures)<- dtFeaturesNames$V2
+
+# merge to get data table for all Data
+dataCombine <- cbind(dtSubject, dtActivity)
+Data <- cbind(dtFeatures, dataCombine)
+
 
 # 2. Extracts only the measurements on the mean and standard deviation for each measurement.
+subdataFeaturesNames<-dtFeaturesNames$V2[grep("mean\\(\\)|std\\(\\)", dtFeaturesNames$V2)]
+selectedNames<-c(as.character(subdataFeaturesNames), "subject", "activity" )
+Data<-subset(Data,select=selectedNames)
 
 # 3. Uses descriptive activity names to name the activities in the data set
+
+
 
 # 4. Appropriately labels the data set with descriptive variable names.
 
