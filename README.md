@@ -26,8 +26,9 @@ AUTHOR: Stephen Eaton (seaton@strobotics.com.au)
 ##Instructions:
 
 1. Within the 'run_analysis.R' script change the variable 'wd' to suit your working directory.
-2. execute the 'run_analysis.R' his script will automatically download the data file from the URL outlined in the project Purpose above, It will rename this file to 'dataset.zip'.  Once downloaded a subdirectory called 'data' under your working directory will be created.   The datafile will be unziped into this data directory. To Save time in downloading for testing purposes you can place the data file in your working directory along side the 'run_analysis.R' script.
-3. 
+2. executing the 'run_analysis.R' script will automatically download the data file from the URL outlined in the project Purpose above, It will rename this file to 'dataset.zip'.  
+3. Once downloaded a subdirectory called 'data' under your working directory will be created.   
+4. The datafile will then be unziped into the data directory. To Save time in downloading (or if downloading fails) for testing purposes you can place the data file in your working directory along side the 'run_analysis.R' script.
 
 
 
