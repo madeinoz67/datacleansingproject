@@ -15,8 +15,8 @@ setwd(wd)
 
 library(data.table)
 library(reshape2)
-library(plyr) # 
-library(dplyr) # for fancy data table manipulations and organization
+library(plyr) 
+library(dplyr) 
 
 # Check that data file exists, if not then download
 if(!file.exists(data_file)){
@@ -44,7 +44,8 @@ dtActivityTest  <- read.table(file.path(data_path, "test", "Y_test.txt"), header
 dtFeaturesTrain <- read.table(file.path(data_path, "train", "X_train.txt"), header = FALSE) 
 dtFeaturesTest  <- read.table(file.path(data_path, "test", "X_test.txt"), header = FALSE)
 
-activityLabels <- read.table(file.path(data_path, "activity_labels.txt"),header = FALSE)
+activityType <- read.table(file.path(data_path, "activity_labels.txt"),header = FALSE)
+
 
 
 # 1. Merges the training and the test sets to create one data set.
@@ -53,8 +54,8 @@ dtSubject <- rbind(dtSubjectTrain, dtSubjectTest)
 dtActivity<- rbind(dtActivityTrain, dtActivityTest)
 dtFeatures<- rbind(dtFeaturesTrain, dtFeaturesTest)
 
-names(dtSubject)<-c("subject")
-names(dtActivity)<- c("activity")
+names(dtSubject)<-c("subjectId")
+names(dtActivity)<- c("activityId")
 dtFeaturesNames <- read.table(file.path(data_path, "features.txt"), header=FALSE)
 names(dtFeatures)<- dtFeaturesNames$V2
 
@@ -65,15 +66,23 @@ Data <- cbind(dtFeatures, dataCombine)
 
 # 2. Extracts only the measurements on the mean and standard deviation for each measurement.
 subdataFeaturesNames<-dtFeaturesNames$V2[grep("mean\\(\\)|std\\(\\)", dtFeaturesNames$V2)]
-selectedNames<-c(as.character(subdataFeaturesNames), "subject", "activity" )
+selectedNames<-c(as.character(subdataFeaturesNames), "subjectId", "activityId" )
 Data<-subset(Data,select=selectedNames)
 
 # 3. Uses descriptive activity names to name the activities in the data set
-
-
+colnames(activityType)   <- c('activityId','activityType');
+Data <- merge(Data, activityType, by='activityId', all.x=TRUE);
 
 # 4. Appropriately labels the data set with descriptive variable names.
-
+names(Data)<-gsub("^t", "time", names(Data))
+names(Data)<-gsub("^f", "frequency", names(Data))
+names(Data)<-gsub("Acc", "Accelerometer", names(Data))
+names(Data)<-gsub("Gyro", "Gyroscope", names(Data))
+names(Data)<-gsub("Mag", "Magnitude", names(Data))
+names(Data)<-gsub("BodyBody", "Body", names(Data))
 
 # 5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
-
+# create the Tidy data set 
+TidyData <- aggregate(. ~subjectId + activityType, Data, mean)
+TidyData <- TidyData[order(Data2$subjectId,Data2$activityType),]
+write.table(TidyData, file = "tidydata.txt", row.name=TRUE, sep = '\t')
