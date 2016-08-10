@@ -31,7 +31,10 @@ AUTHOR: Stephen Eaton (seaton@strobotics.com.au)
 3. Once it completes downloading,  a subdirectory called 'data' under your working directory will be created.   
 4. The datafile will then be unziped into the data directory. To Save time in downloading (or if downloading fails) for testing purposes you can place the data file in your working directory along side the 'run_analysis.R' script.
 
-## Analysis Outputs:
-1. A file called 'tidydata.txt' (Tab Delimited Text file) is created in the working directory
+## Script Output:
+1. A file called 'HumanActivitySmartPhoneRecognitionDataSet.txt' (Tab Delimited Text file) is created in the working directory
+
+## Notes:
+Consult codebook.md for details of vairables contained in
 
 
