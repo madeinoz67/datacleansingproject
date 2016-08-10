@@ -84,4 +84,4 @@ names(Data)<-gsub("BodyBody", "Body", names(Data))
 # create the Tidy data set 
 TidyData <- aggregate(. ~subjectId + activityType, Data, mean)
 TidyData <- TidyData[order(Data2$subjectId,Data2$activityType),]
-write.table(TidyData, file = "HumanActivitySmartPhoneRecognitionDataSet.txt", sep = '\t')
+write.table(TidyData, file = "HumanActivitySmartPhoneRecognitionDataSet.txt",row.names=FALSE, sep = '\t')
