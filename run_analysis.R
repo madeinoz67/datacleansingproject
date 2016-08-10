@@ -32,7 +32,7 @@ if (!dir.exists("data")){
 unzip(data_f, overwrite = TRUE, exdir = "data" )
 
 # list files
-list.files(data_path, recursive = TRUE)
+#list.files(data_path, recursive = TRUE)
 
 # Read in the required files
 dtSubjectTrain  <- read.table(file.path(data_path, "train", "subject_train.txt"), header = FALSE)
@@ -45,7 +45,6 @@ dtFeaturesTrain <- read.table(file.path(data_path, "train", "X_train.txt"), head
 dtFeaturesTest  <- read.table(file.path(data_path, "test", "X_test.txt"), header = FALSE)
 
 activityType <- read.table(file.path(data_path, "activity_labels.txt"),header = FALSE)
-
 
 
 # 1. Merges the training and the test sets to create one data set.
@@ -85,4 +84,4 @@ names(Data)<-gsub("BodyBody", "Body", names(Data))
 # create the Tidy data set 
 TidyData <- aggregate(. ~subjectId + activityType, Data, mean)
 TidyData <- TidyData[order(Data2$subjectId,Data2$activityType),]
-write.table(TidyData, file = "tidydata.txt", row.name=TRUE, sep = '\t')
+write.table(TidyData, file = "HumanActivitySmartPhoneRecognitionDataSet.txt", sep = '\t')
