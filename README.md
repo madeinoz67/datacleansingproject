@@ -35,6 +35,6 @@ AUTHOR: Stephen Eaton (seaton@strobotics.com.au)
 1. A file called 'HumanActivitySmartPhoneRecognitionDataSet.txt' (Tab Delimited Text file) is created in the working directory
 
 ## Notes:
-Consult codebook.md for details of vairables contained in
+Consult codebook.md for details of vairables contained in the output file
 
 
